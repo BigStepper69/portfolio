@@ -1,0 +1,401 @@
+/* ── FONTS ─────────────────────────────────────────────────────── */
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&display=swap');
+
+/* ── VARIABLES ─────────────────────────────────────────────────── */
+:root {
+    --gold:        #C9A84C;
+    --gold-light:  #E2C472;
+    --gold-pale:   #F5E6B8;
+    --black:       #0D0D0D;
+    --black-card:  #1A1A1A;
+    --black-card2: #222222;
+    --text:        #F0EDE4;
+    --text-muted:  #A89880;
+}
+
+/* ── ANIMATED BACKGROUND ───────────────────────────────────────── */
+html { scroll-behavior: smooth; }
+
+body {
+    font-family: 'DM Sans', 'Segoe UI', sans-serif;
+    background-color: var(--black);
+    color: var(--text);
+    min-height: 100vh;
+    overflow-x: hidden;
+    position: relative;
+    animation: fadeIn 0.5s ease both;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── ANIMATED GOLD GRADIENT OVERLAY ───────────────────────────── */
+body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: 
+        radial-gradient(ellipse at 20% 20%, rgba(201,168,76,0.10) 0%, transparent 55%),
+        radial-gradient(ellipse at 80% 80%, rgba(201,168,76,0.08) 0%, transparent 55%),
+        radial-gradient(ellipse at 50% 50%, rgba(201,168,76,0.04) 0%, transparent 70%);
+    animation: overlayShift 16s ease-in-out infinite;
+    pointer-events: none;
+    z-index: 0;
+}
+
+@keyframes overlayShift {
+    0%   { opacity: 0.6; transform: scale(1); }
+    50%  { opacity: 1;   transform: scale(1.08); }
+    100% { opacity: 0.6; transform: scale(1); }
+}
+
+/* ── FLOATING GOLD BLOBS ────────────────────────────────────────── */
+body::after {
+    content: '';
+    position: fixed;
+    width: 600px;
+    height: 600px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(201,168,76,0.12), transparent 70%);
+    top: -150px;
+    right: -150px;
+    filter: blur(60px);
+    animation: blobMove1 22s ease-in-out infinite;
+    pointer-events: none;
+    z-index: 0;
+}
+
+@keyframes blobMove1 {
+    0%,100% { transform: translate(0,0) scale(1); }
+    33%      { transform: translate(-70px, 90px) scale(1.1); }
+    66%      { transform: translate(50px, -60px) scale(0.92); }
+}
+
+/* ── GOLD PARTICLES (canvas injected by JS below) ──────────────── */
+
+/* Content above effects */
+nav, section, footer, .container,
+#chatbox, button[onclick="toggleChat()"] {
+    position: relative;
+    z-index: 2;
+}
+
+/* ── NAVBAR ────────────────────────────────────────────────────── */
+.navbar {
+    background: rgba(13,13,13,0.96) !important;
+    backdrop-filter: blur(16px) !important;
+    -webkit-backdrop-filter: blur(16px) !important;
+    padding: 14px 0 !important;
+    border-bottom: 1px solid rgba(201,168,76,0.25) !important;
+}
+
+.navbar-brand {
+    font-weight: 800 !important;
+    font-size: 1rem !important;
+    color: var(--gold) !important;
+    letter-spacing: 0.5px;
+}
+
+.nav-link {
+    color: rgba(240,237,228,0.85) !important;
+    font-size: 0.88rem !important;
+    font-weight: 500 !important;
+    padding: 6px 14px !important;
+    border-radius: 6px !important;
+    transition: all 0.2s !important;
+    margin: 0 2px;
+    border-bottom: none !important;
+}
+
+.nav-link:hover {
+    background: rgba(201,168,76,0.12) !important;
+    color: var(--gold) !important;
+}
+
+.nav-link.fw-bold,
+.nav-link.border-bottom {
+    color: var(--gold) !important;
+    border-bottom: 2px solid var(--gold) !important;
+    background: rgba(201,168,76,0.08) !important;
+}
+
+/* ── HERO TEXT ─────────────────────────────────────────────────── */
+h1, h2, h3, h4, h5, h6 {
+    color: var(--text) !important;
+}
+
+h1.display-2 {
+    font-weight: 800 !important;
+    letter-spacing: -1.5px;
+    line-height: 1.15;
+    color: white !important;
+}
+
+h2.display-5 {
+    font-weight: 700 !important;
+    letter-spacing: -0.5px;
+    color: var(--gold) !important;
+}
+
+/* Override any inline green color */
+[style*="color: #90A98F"],
+[style*="color:#90A98F"] {
+    color: var(--gold) !important;
+}
+
+p, li, small, .lead {
+    color: var(--text-muted) !important;
+}
+
+.text-dark { color: white !important; }
+.text-secondary { color: var(--text-muted) !important; }
+
+/* ── BUTTONS ───────────────────────────────────────────────────── */
+.btn {
+    font-weight: 600 !important;
+    transition: all 0.25s ease !important;
+    border-radius: 10px !important;
+}
+
+.btn:hover {
+    transform: translateY(-3px) !important;
+    box-shadow: 0 10px 28px rgba(201,168,76,0.25) !important;
+    filter: brightness(1.1);
+}
+
+/* Override inline green buttons */
+a.btn[style*="#90A98F"],
+button.btn[style*="#90A98F"] {
+    background-color: var(--gold) !important;
+    border-color: var(--gold) !important;
+    color: var(--black) !important;
+}
+
+a.btn[style*="#90A98F"]:hover,
+button.btn[style*="#90A98F"]:hover {
+    background-color: var(--gold-light) !important;
+    color: var(--black) !important;
+}
+
+.btn-outline-dark {
+    color: var(--text) !important;
+    border-color: rgba(240,237,228,0.4) !important;
+}
+
+.btn-outline-dark:hover {
+    background: rgba(240,237,228,0.1) !important;
+    color: white !important;
+}
+
+/* Submit button */
+button[type="submit"] {
+    background-color: var(--gold) !important;
+    color: var(--black) !important;
+    border: none !important;
+    font-weight: 700 !important;
+}
+
+button[type="submit"]:hover {
+    background-color: var(--gold-light) !important;
+}
+
+/* ── PROFILE IMAGE ─────────────────────────────────────────────── */
+.rounded-circle {
+    transition: transform 0.35s ease, box-shadow 0.35s ease !important;
+    border-color: var(--gold) !important;
+}
+
+.rounded-circle:hover {
+    transform: scale(1.05) !important;
+    box-shadow: 0 0 0 4px var(--gold), 0 20px 60px rgba(201,168,76,0.3) !important;
+}
+
+/* ── CARDS ─────────────────────────────────────────────────────── */
+.card {
+    transition: transform 0.28s ease, box-shadow 0.28s ease !important;
+    border-radius: 16px !important;
+    border: 1px solid rgba(201,168,76,0.3) !important;
+    background: var(--black-card) !important;
+    color: var(--text) !important;
+}
+
+.card:hover {
+    transform: translateY(-9px) !important;
+    box-shadow: 0 20px 55px rgba(201,168,76,0.15), 0 0 0 1px rgba(201,168,76,0.5) !important;
+    border-color: var(--gold) !important;
+}
+
+.card-img-top {
+    height: 240px !important;
+    object-fit: cover !important;
+    border-radius: 16px 16px 0 0 !important;
+    border-bottom: 2px solid var(--gold) !important;
+}
+
+.card-body { 
+    padding: 1.4rem 1.5rem !important;
+    background: var(--black-card) !important;
+    border-radius: 0 0 16px 16px !important;
+}
+
+.card-body h4 {
+    font-weight: 700 !important;
+    color: white !important;
+}
+
+.card-body p {
+    color: var(--text-muted) !important;
+}
+
+/* ── BADGES ────────────────────────────────────────────────────── */
+.badge {
+    font-size: 0.78rem !important;
+    padding: 6px 14px !important;
+    border-radius: 20px !important;
+    font-weight: 600 !important;
+    background-color: var(--gold) !important;
+    color: var(--black) !important;
+}
+
+/* ── WHITE BACKGROUNDS → DARK ──────────────────────────────────── */
+.bg-white,
+.card.border-0.shadow-sm.p-4,
+div[class*="card"] {
+    background: var(--black-card) !important;
+    color: var(--text) !important;
+}
+
+/* About page info box */
+.bg-white.p-3.rounded-4,
+.p-4.bg-white {
+    background: var(--black-card2) !important;
+    border: 1px solid rgba(201,168,76,0.25) !important;
+    color: var(--text) !important;
+}
+
+/* ── ABOUT PAGE LIST ───────────────────────────────────────────── */
+.list-group-item {
+    background: var(--black-card) !important;
+    border-left: 3px solid var(--gold) !important;
+    border-top: none !important;
+    border-right: none !important;
+    border-bottom: 1px solid rgba(201,168,76,0.1) !important;
+    padding: 14px 18px !important;
+    color: var(--text) !important;
+    transition: background 0.2s, padding-left 0.2s;
+}
+
+.list-group-item:hover {
+    background: var(--black-card2) !important;
+    padding-left: 26px !important;
+}
+
+.list-group-item strong { color: white !important; }
+
+/* ── CONTACT FORM ──────────────────────────────────────────────── */
+.form-control {
+    border-radius: 9px !important;
+    border: 1.5px solid rgba(201,168,76,0.25) !important;
+    padding: 10px 14px !important;
+    font-size: 0.9rem !important;
+    background: var(--black-card2) !important;
+    color: var(--text) !important;
+    transition: border-color 0.2s, box-shadow 0.2s !important;
+}
+
+.form-control::placeholder { color: var(--text-muted) !important; opacity: 0.7; }
+
+.form-control:focus {
+    border-color: var(--gold) !important;
+    box-shadow: 0 0 0 3px rgba(201,168,76,0.15) !important;
+    background: #1E1E1E !important;
+    color: white !important;
+    outline: none !important;
+}
+
+.form-label { color: var(--text) !important; font-weight: 500; }
+
+/* ── CHATBOX ───────────────────────────────────────────────────── */
+button[onclick="toggleChat()"] {
+    background: var(--gold) !important;
+    color: var(--black) !important;
+    box-shadow: 0 4px 20px rgba(201,168,76,0.4) !important;
+}
+
+#chatbox {
+    border-radius: 18px !important;
+    border: 1px solid rgba(201,168,76,0.3) !important;
+    box-shadow: 0 12px 50px rgba(0,0,0,0.5) !important;
+    background: var(--black-card) !important;
+}
+
+#user-input {
+    background: var(--black-card2) !important;
+    color: var(--text) !important;
+    border-color: rgba(201,168,76,0.2) !important;
+}
+
+#user-input::placeholder { color: var(--text-muted) !important; }
+
+#user-input:focus {
+    border-color: var(--gold) !important;
+    outline: none !important;
+    box-shadow: 0 0 0 3px rgba(201,168,76,0.15) !important;
+}
+
+/* ── FOOTER ────────────────────────────────────────────────────── */
+footer, 
+section + footer,
+body > footer {
+    background: #0D0D0D !important;
+    border-top: 1px solid rgba(201,168,76,0.2) !important;
+    color: var(--text-muted) !important;
+    text-align: center;
+    padding: 24px 16px;
+    font-size: 0.87rem;
+    margin-top: 60px;
+}
+
+footer a {
+    color: var(--gold) !important;
+    text-decoration: none;
+    margin: 0 10px;
+    transition: color 0.2s;
+}
+
+footer a:hover { color: var(--gold-light) !important; }
+
+/* ── SCROLL TO TOP ─────────────────────────────────────────────── */
+#scrollTop {
+    position: fixed;
+    bottom: 92px; right: 20px;
+    width: 38px; height: 38px;
+    border-radius: 50%;
+    background: var(--gold);
+    border: none; color: var(--black);
+    font-size: 16px; font-weight: 700;
+    cursor: pointer; display: none;
+    align-items: center; justify-content: center;
+    box-shadow: 0 4px 14px rgba(201,168,76,0.35);
+    z-index: 999;
+    transition: transform 0.2s;
+}
+
+#scrollTop:hover { transform: translateY(-3px); }
+
+/* ── SECTION SPACING ───────────────────────────────────────────── */
+section { padding-bottom: 40px; }
+
+/* ── SHADOWS ───────────────────────────────────────────────────── */
+.shadow-sm { box-shadow: 0 2px 14px rgba(0,0,0,0.3) !important; }
+.shadow-lg  { box-shadow: 0 10px 40px rgba(0,0,0,0.4) !important; }
+
+/* ── GOLD PARTICLES CANVAS ─────────────────────────────────────── */
+#gold-canvas {
+    position: fixed;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+}
